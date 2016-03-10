@@ -71,6 +71,10 @@ class RequestService
         if ($path !== null) {
             $uri->setPath($uri->getPath() . $path);
         }
+        if ($method === 'GET' && $arguments !== []) {
+            $uri->setQuery(http_build_query($arguments));
+            $arguments = [];
+        }
 
         $request = Request::create($uri, $method, $arguments, array(), array());
         // In some cases, $content will contain "null" as a string. Better be safe and handle this weird case:
